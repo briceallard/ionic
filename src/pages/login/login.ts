@@ -1,5 +1,6 @@
+import { AuthProvider } from './../../providers/auth/auth';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 
 /**
  * Generated class for the LoginPage page.
@@ -17,15 +18,24 @@ export class LoginPage {
 
   email: string;
   password: string;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider,
+      private toast: ToastController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
 
-  login() {
-    
+  async login() {
+    try {
+      await this.auth.login(this.email, this.password);
+    } catch (e) {
+      console.log(e);
+      this.toast.create({
+        message: e.message,
+        duration: 3000
+      }).present();
+    }
   }
 
 }
