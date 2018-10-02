@@ -1,6 +1,6 @@
 import { AuthProvider } from './../../providers/auth/auth';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 
 /**
  * Generated class for the RegisterPage page.
@@ -16,9 +16,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class RegisterPage {
 
-  username: string;
+  email: string;
   password: string;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider,
+      private toast: ToastController) {
   }
 
   ionViewDidLoad() {
@@ -27,10 +28,13 @@ export class RegisterPage {
 
   async register() {
     try {
-      await this.auth.createUser(this.password, this.password);
+      await this.auth.createUser(this.email, this.password);
     } catch (e) {
       console.log(e);
-      
+      this.toast.create({
+        message: e.message,
+        duration: 3000
+      }).present();
     }
   }
 
