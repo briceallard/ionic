@@ -1,3 +1,4 @@
+import { AuthProvider } from './../../providers/auth/auth';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -15,11 +16,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class RegisterPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  username: string;
+  password: string;
+  constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
+  }
+
+  async register() {
+    try {
+      await this.auth.createUser(this.password, this.password);
+    } catch (e) {
+      console.log(e);
+      
+    }
   }
 
 }
