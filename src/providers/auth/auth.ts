@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 /*
   Generated class for the AuthProvider provider.
@@ -10,8 +10,26 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class AuthProvider {
 
-  constructor(public http: HttpClient) {
+  constructor(private auth: AngularFireAuth) {
     console.log('Hello AuthProvider Provider');
+  }
+
+  async createUser(email, password) {
+    try {
+      await this.auth.auth.createUserWithEmailAndPassword(email, password);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  async login(email, password) {
+    try {
+      await this.auth.auth.signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
 
 }
